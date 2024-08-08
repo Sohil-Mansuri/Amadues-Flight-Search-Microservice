@@ -48,7 +48,6 @@ namespace Musafir.AmaduesAPI.Service
             }
         }
 
-
         public AirItineraryInfo[]? GetAmaduesFlights(FlightSearchRequestModel request)
         {
             var providerRequest = _flightSearchRequestHandler.GetRequest(request);
