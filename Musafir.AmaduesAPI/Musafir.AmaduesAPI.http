@@ -1,0 +1,6 @@
+@Musafir.AmaduesAPI_HostAddress = http://localhost:5212
+
+GET {{Musafir.AmaduesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
