@@ -53,7 +53,7 @@ namespace Musafir.AmaduesAPI.Service
             var providerRequest = _flightSearchRequestHandler.GetRequest(request);
             var providerResponse = AmadeusClient.Fare_MasterPricerTravelBoardSearch(providerRequest);
 
-            var response = _flightResponseHandler.GetFlightResonse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
+            var response = _flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
             return response;
         }
     }

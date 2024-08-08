@@ -6,7 +6,7 @@ namespace Musafir.AmaduesAPI.Handler
 {
     public class FlightResponseHandler : IFlightResponseHandler
     {
-        public AirItineraryInfo[]? GetFlightResonse(Fare_MasterPricerTravelBoardSearchReply reply)
+        public AirItineraryInfo[]? GetFlightResponse(Fare_MasterPricerTravelBoardSearchReply reply)
         {
             List<AirItineraryInfo> flights = [];
 

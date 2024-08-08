@@ -5,6 +5,6 @@ namespace Musafir.AmaduesAPI.Handler
 {
     public interface IFlightResponseHandler
     {
-        AirItineraryInfo[]? GetFlightResonse(Fare_MasterPricerTravelBoardSearchReply reply);
+        AirItineraryInfo[]? GetFlightResponse(Fare_MasterPricerTravelBoardSearchReply reply);
     }
 }
