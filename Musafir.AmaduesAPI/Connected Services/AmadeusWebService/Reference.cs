@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using Musafir.DataAccess.AmadeusProvider.Utilities;
+using Musafir.AmaduesAPI;
 
 namespace AmadeusWebService
 {

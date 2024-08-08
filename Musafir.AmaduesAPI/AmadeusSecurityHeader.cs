@@ -1,10 +1,9 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Musafir.DataAccess.AmadeusProvider.Utilities
+namespace Musafir.AmaduesAPI
 {
 	
 	/// <summary>

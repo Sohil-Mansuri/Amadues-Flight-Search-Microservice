@@ -1,7 +1,6 @@
 ﻿using Musafir.AmaduesAPI.Handler;
 using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Service;
-using Musafir.DataAccess.AmadeusProvider.Utilities;
 
 namespace Musafir.AmaduesAPI
 {
