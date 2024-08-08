@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Ignore environment-specific appsettings files
 appsettings.Development.json
+/Musafir.AmaduesAPI/appsettings.Development.json
