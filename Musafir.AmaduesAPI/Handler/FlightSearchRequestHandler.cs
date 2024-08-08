@@ -1,15 +1,18 @@
 ﻿using AmadeusWebService;
 using Musafir.AmaduesAPI.Request;
+using System.Xml;
 
 namespace Musafir.AmaduesAPI.Handler
 {
     public class FlightSearchRequestHandler : IFightSearchRequestHandler
     {
         private readonly AmadeusSecurityHeader _amadeusSecurityHeader;
+        private readonly IConfiguration _configuration;
 
-        public FlightSearchRequestHandler(AmadeusSecurityHeader amadeusSecurityHeader)
+        public FlightSearchRequestHandler(AmadeusSecurityHeader amadeusSecurityHeader, IConfiguration configuration)
         {
             _amadeusSecurityHeader = amadeusSecurityHeader;
+            _configuration = configuration;
         }
 
         public Fare_MasterPricerTravelBoardSearchRequest GetRequest(FlightSearchRequestModel request)
@@ -192,7 +195,7 @@ namespace Musafir.AmaduesAPI.Handler
             {
                 Consumer = new ConsumerType
                 {
-                    UniqueID = Guid.NewGuid().ToString()
+                    UniqueID = new UniqueId().ToString()
                 }
             };
         }
@@ -204,7 +207,7 @@ namespace Musafir.AmaduesAPI.Handler
                 UserID = new AMA_SecurityHostedUserUserID
                 {
                     POS_Type = "1",
-                    PseudoCityCode = "BOMVS35IW",
+                    PseudoCityCode = _configuration["AmadeusConfiguration:OfficeId"],
                     AgentDutyCode = "SU",
                     RequestorType = "U"
                 }
