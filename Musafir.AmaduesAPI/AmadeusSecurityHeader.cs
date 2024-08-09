@@ -19,10 +19,11 @@ namespace Musafir.AmaduesAPI
         {
             
         }
+
         public AmadeusSecurityHeader(IConfiguration configuration)
 		{
 			string username = configuration["AmadeusConfiguration:Username"] ?? string.Empty;
-			string password = configuration["AmadeusConfiguration:password"] ?? string.Empty;
+			string password = configuration["AmadeusConfiguration:Password"] ?? string.Empty;
             UsernameToken = new UsernameTokenInfo();
 
             UsernameToken.Id = "SecurityToken-" + Guid.NewGuid().ToString("D").ToLower();

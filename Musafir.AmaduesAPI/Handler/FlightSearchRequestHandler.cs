@@ -4,16 +4,10 @@ using System.Xml;
 
 namespace Musafir.AmaduesAPI.Handler
 {
-    public class FlightSearchRequestHandler : IFightSearchRequestHandler
+    public class FlightSearchRequestHandler(AmadeusSecurityHeader amadeusSecurityHeader, IConfiguration configuration) : IFightSearchRequestHandler
     {
-        private readonly AmadeusSecurityHeader _amadeusSecurityHeader;
-        private readonly IConfiguration _configuration;
-
-        public FlightSearchRequestHandler(AmadeusSecurityHeader amadeusSecurityHeader, IConfiguration configuration)
-        {
-            _amadeusSecurityHeader = amadeusSecurityHeader;
-            _configuration = configuration;
-        }
+        private readonly AmadeusSecurityHeader _amadeusSecurityHeader = amadeusSecurityHeader;
+        private readonly IConfiguration _configuration = configuration;
 
         public Fare_MasterPricerTravelBoardSearchRequest GetRequest(FlightSearchRequestModel request)
         {
@@ -189,30 +183,25 @@ namespace Musafir.AmaduesAPI.Handler
             return [.. itinerariesList];
         }
 
-        private TransactionFlowLinkType GetTransactionFlowLinkType()
+        private TransactionFlowLinkType GetTransactionFlowLinkType() => new()
         {
-            return new TransactionFlowLinkType
+            Consumer = new ConsumerType
             {
-                Consumer = new ConsumerType
-                {
-                    UniqueID = new UniqueId().ToString()
-                }
-            };
-        }
+                UniqueID = new UniqueId().ToString()
+            }
+        };
 
-        private AMA_SecurityHostedUser GetAMA_SecurityHostedUser()
+        private AMA_SecurityHostedUser GetAMA_SecurityHostedUser() => new()
         {
-            return new AMA_SecurityHostedUser
+            UserID = new AMA_SecurityHostedUserUserID
             {
-                UserID = new AMA_SecurityHostedUserUserID
-                {
-                    POS_Type = "1",
-                    PseudoCityCode = _configuration["AmadeusConfiguration:OfficeId"],
-                    AgentDutyCode = "SU",
-                    RequestorType = "U"
-                }
-            };
-        }
+                POS_Type = "1",
+                PseudoCityCode = _configuration["AmadeusConfiguration:OfficeId"],
+                AgentDutyCode = "SU",
+                RequestorType = "U"
+            }
+        };
+        
 
     }
 }

@@ -4,13 +4,10 @@ using System.ServiceModel.Dispatcher;
 
 namespace Musafir.AmaduesAPI.Other
 {
-    public class CustomEndpointBehavior : IEndpointBehavior
+    public class CustomEndpointBehavior(CustomMessageInspector inspector) : IEndpointBehavior
     {
-        private readonly CustomMessageInspector _inspector;
-        public CustomEndpointBehavior(CustomMessageInspector inspector)
-        {
-            _inspector = inspector;
-        }
+        private readonly CustomMessageInspector _inspector = inspector;
+
         public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
 
         public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)

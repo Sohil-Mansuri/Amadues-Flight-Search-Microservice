@@ -7,13 +7,9 @@ namespace Musafir.AmaduesAPI.Controllers
 {
     [Route("api/v1/amadeus")]
     [ApiController]
-    public class AmadeusFlightsController : ControllerBase
+    public class AmadeusFlightsController(AmadeusFlightService amadeusFlightService) : ControllerBase
     {
-        private readonly AmadeusFlightService _amadeusFlightService;
-        public AmadeusFlightsController(AmadeusFlightService amadeusFlightService)
-        {
-            _amadeusFlightService = amadeusFlightService;
-        }
+        private readonly AmadeusFlightService _amadeusFlightService = amadeusFlightService;
 
         [HttpPost("getFlights")]
         public async Task<IActionResult> GetAmadeusFlight([FromBody] FlightSearchRequestModel requestModel)

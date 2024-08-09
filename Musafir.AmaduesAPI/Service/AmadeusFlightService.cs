@@ -3,30 +3,21 @@ using Musafir.AmaduesAPI.Handler;
 using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Response;
-using System.Globalization;
 using System.ServiceModel;
 
 namespace Musafir.AmaduesAPI.Service
 {
-    public class AmadeusFlightService
+    public class AmadeusFlightService(IConfiguration configuration, 
+        CustomEndpointBehavior customEndpointBehavior, 
+        IFightSearchRequestHandler fightSearchRequestHandler, 
+        IFlightResponseHandler flightResponseHandler)
     {
-        private readonly IConfiguration _configuration;
-        private readonly CustomEndpointBehavior _customEndpointBehavior;
-        private readonly IFightSearchRequestHandler _flightSearchRequestHandler;
-        private readonly IFlightResponseHandler _flightResponseHandler;
+        private readonly IConfiguration _configuration = configuration;
+        private readonly CustomEndpointBehavior _customEndpointBehavior = customEndpointBehavior;
+        private readonly IFightSearchRequestHandler _flightSearchRequestHandler = fightSearchRequestHandler;
+        private readonly IFlightResponseHandler _flightResponseHandler = flightResponseHandler;
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
 
-
-        public AmadeusFlightService(IConfiguration configuration, 
-          CustomEndpointBehavior customEndpointBehavior,
-          IFightSearchRequestHandler fightSearchRequestHandler, 
-          IFlightResponseHandler flightResponseHandler)
-        {
-            _configuration = configuration;
-            _customEndpointBehavior = customEndpointBehavior;
-            _flightSearchRequestHandler = fightSearchRequestHandler;
-            _flightResponseHandler = flightResponseHandler;
-        }
 
         public Master_pricer__PDT_1_0_ServicesPTClient AmadeusClient
         {

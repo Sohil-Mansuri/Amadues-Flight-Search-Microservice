@@ -5,15 +5,11 @@ using System.Xml;
 
 namespace Musafir.AmaduesAPI.Other
 {
-    public class CustomMessageInspector : IClientMessageInspector
+    public class CustomMessageInspector(IConfiguration configuration, ILogger<CustomMessageInspector> logger) : IClientMessageInspector
     {
-        private readonly IConfiguration _configuration;
-        private readonly ILogger<CustomMessageInspector> _logger;
-        public CustomMessageInspector(IConfiguration configuration, ILogger<CustomMessageInspector> logger)
-        {
-            _configuration = configuration;
-            _logger = logger;
-        }
+        private readonly IConfiguration _configuration = configuration;
+        private readonly ILogger<CustomMessageInspector> _logger = logger;
+
         public object? BeforeSendRequest(ref Message request, IClientChannel channel)
         {
             //custom headers 
@@ -38,7 +34,7 @@ namespace Musafir.AmaduesAPI.Other
                 copy.WriteMessage(writer);
                 writer.Flush();
                 var xml = sw.ToString();
-                _logger.LogInformation("Request: " + xml);
+                _logger.LogInformation($"Amadeus Flight Request : {xml}");
             }
 
             // Use the buffered copy to proceed
@@ -59,7 +55,7 @@ namespace Musafir.AmaduesAPI.Other
                     copy.WriteMessage(writer);
                     writer.Flush();
                     var xml = sw.ToString();
-                    _logger.LogInformation("Response: " + xml);
+                    _logger.LogInformation($"Amadeus Flight Response: {xml}");
                 }
             }
 
