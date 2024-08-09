@@ -6,7 +6,7 @@ namespace Musafir.AmaduesAPI
 {
     public static class MusafirProjectDependnecy
     {
-        public static void AddProjectDependency(this IServiceCollection services)
+        public static void AddProjectDependencies(this IServiceCollection services)
         {
            services.AddSingleton<AmadeusFlightService>();
            services.AddSingleton<CustomMessageInspector>();
@@ -17,9 +17,9 @@ namespace Musafir.AmaduesAPI
         }
 
 
-        public static void AddThirdPartyDependnecy(this IServiceCollection services)
+        public static void AddThirdPartyDependnecies(this IServiceCollection services)
         {
-
+          
         }
     }
 }

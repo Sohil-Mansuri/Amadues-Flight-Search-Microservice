@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Service;
+using Newtonsoft.Json;
 
 namespace Musafir.AmaduesAPI.Controllers
 {
-    [Route("api/amadeus")]
+    [Route("api/v1/amadeus")]
     [ApiController]
     public class AmadeusFlightsController : ControllerBase
     {
@@ -19,12 +20,15 @@ namespace Musafir.AmaduesAPI.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
                 var response = await _amadeusFlightService.GetAmaduesFlights(requestModel);
                 return Ok(response);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex);
+                return StatusCode(500, JsonConvert.SerializeObject(ex));
             }
         }
     }
