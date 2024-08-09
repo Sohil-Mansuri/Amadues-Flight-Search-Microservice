@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 /Musafir.AmaduesAPI/appsettings.Development.json
+*.cs
