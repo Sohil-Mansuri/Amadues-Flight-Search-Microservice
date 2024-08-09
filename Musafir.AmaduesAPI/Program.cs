@@ -1,5 +1,6 @@
 using Serilog;
 using Newtonsoft;
+using Musafir.AmaduesAPI.Extensions;
 
 namespace Musafir.AmaduesAPI
 {
@@ -17,7 +18,7 @@ namespace Musafir.AmaduesAPI
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddProjectDependencies();
-            builder.Services.AddThirdPartyDependnecies();
+            builder.Services.AddThirdPartyDependnecies(builder);
 
             Log.Logger = new LoggerConfiguration()
                         .WriteTo.Console()

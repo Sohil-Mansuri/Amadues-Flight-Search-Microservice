@@ -10,7 +10,8 @@ namespace Musafir.AmaduesAPI.Service
     public class AmadeusFlightService(IConfiguration configuration, 
         CustomEndpointBehavior customEndpointBehavior, 
         IFightSearchRequestHandler fightSearchRequestHandler, 
-        IFlightResponseHandler flightResponseHandler)
+        IFlightResponseHandler flightResponseHandler,
+        FlightCachingHandler flightCachingHandler)
     {
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
 
@@ -19,7 +20,7 @@ namespace Musafir.AmaduesAPI.Service
         {
             get
             {
-                if (_amadeusClient == null)
+                if (_amadeusClient is null)
                 {
                     var binding = new BasicHttpsBinding
                     {
@@ -37,10 +38,15 @@ namespace Musafir.AmaduesAPI.Service
 
         public async Task<AirItineraryInfo[]?> GetAmaduesFlights(FlightSearchRequestModel request)
         {
+            //get flights from cache
+            var flightsFromCache = await flightCachingHandler.GetFlights(request);
+            if (flightsFromCache?.Any() ?? false) return flightsFromCache;
+
             var providerRequest = fightSearchRequestHandler.GetRequest(request);
             var providerResponse = await AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync(providerRequest);
 
             var response = flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
+            await flightCachingHandler.StoreFlights(response, request);
             return response;
         }
     }
