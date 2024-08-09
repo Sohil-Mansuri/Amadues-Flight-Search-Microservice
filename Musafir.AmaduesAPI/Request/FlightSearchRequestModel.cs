@@ -1,4 +1,5 @@
 ﻿using Musafir.AmaduesAPI.CustomValidation;
+using Musafir.AmaduesAPI.Resources;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 

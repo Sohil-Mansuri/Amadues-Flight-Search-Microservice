@@ -6,13 +6,11 @@ namespace Musafir.AmaduesAPI.Other
 {
     public class CustomEndpointBehavior(CustomMessageInspector inspector) : IEndpointBehavior
     {
-        private readonly CustomMessageInspector _inspector = inspector;
-
         public void AddBindingParameters(ServiceEndpoint endpoint, BindingParameterCollection bindingParameters) { }
 
         public void ApplyClientBehavior(ServiceEndpoint endpoint, ClientRuntime clientRuntime)
         {
-            clientRuntime.ClientMessageInspectors.Add(_inspector);
+            clientRuntime.ClientMessageInspectors.Add(inspector);
         }
 
         public void ApplyDispatchBehavior(ServiceEndpoint endpoint, EndpointDispatcher endpointDispatcher) { }

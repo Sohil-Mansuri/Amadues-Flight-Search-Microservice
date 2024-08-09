@@ -7,12 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using Musafir.AmaduesAPI;
+using Musafir.AmaduesAPI.Header;
 
 namespace AmadeusWebService
 {
-    
-    
+
+
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.2.0-preview1.23462.5")]
     [System.ServiceModel.ServiceContractAttribute(Namespace="http://xml.amadeus.com/Master_pricer__PDT_1_0", ConfigurationName="AmadeusWebService.Master_pricer__PDT_1_0_ServicesPT")]
     public interface Master_pricer__PDT_1_0_ServicesPT

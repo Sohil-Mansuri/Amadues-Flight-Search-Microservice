@@ -12,10 +12,6 @@ namespace Musafir.AmaduesAPI.Service
         IFightSearchRequestHandler fightSearchRequestHandler, 
         IFlightResponseHandler flightResponseHandler)
     {
-        private readonly IConfiguration _configuration = configuration;
-        private readonly CustomEndpointBehavior _customEndpointBehavior = customEndpointBehavior;
-        private readonly IFightSearchRequestHandler _flightSearchRequestHandler = fightSearchRequestHandler;
-        private readonly IFlightResponseHandler _flightResponseHandler = flightResponseHandler;
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
 
 
@@ -31,9 +27,9 @@ namespace Musafir.AmaduesAPI.Service
                         ReceiveTimeout = TimeSpan.FromSeconds(180)
                     };
 
-                    var amadeusUrl = new Uri(_configuration["AmadeusConfiguration:Url"] ?? string.Empty);
+                    var amadeusUrl = new Uri(configuration["AmadeusConfiguration:Url"] ?? string.Empty);
                     _amadeusClient = new Master_pricer__PDT_1_0_ServicesPTClient(binding, new EndpointAddress(amadeusUrl));
-                    _amadeusClient.Endpoint.EndpointBehaviors.Add(_customEndpointBehavior);
+                    _amadeusClient.Endpoint.EndpointBehaviors.Add(customEndpointBehavior);
                 }
                 return _amadeusClient;
             }
@@ -41,10 +37,10 @@ namespace Musafir.AmaduesAPI.Service
 
         public async Task<AirItineraryInfo[]?> GetAmaduesFlights(FlightSearchRequestModel request)
         {
-            var providerRequest = _flightSearchRequestHandler.GetRequest(request);
+            var providerRequest = fightSearchRequestHandler.GetRequest(request);
             var providerResponse = await AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync(providerRequest);
 
-            var response = _flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
+            var response = flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
             return response;
         }
     }

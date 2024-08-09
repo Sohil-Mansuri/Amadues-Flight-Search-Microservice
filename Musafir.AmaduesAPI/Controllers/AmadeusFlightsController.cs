@@ -9,8 +9,6 @@ namespace Musafir.AmaduesAPI.Controllers
     [ApiController]
     public class AmadeusFlightsController(AmadeusFlightService amadeusFlightService) : ControllerBase
     {
-        private readonly AmadeusFlightService _amadeusFlightService = amadeusFlightService;
-
         [HttpPost("getFlights")]
         public async Task<IActionResult> GetAmadeusFlight([FromBody] FlightSearchRequestModel requestModel)
         {
@@ -19,7 +17,7 @@ namespace Musafir.AmaduesAPI.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var response = await _amadeusFlightService.GetAmaduesFlights(requestModel);
+                var response = await amadeusFlightService.GetAmaduesFlights(requestModel);
                 return Ok(response);
             }
             catch (Exception ex)

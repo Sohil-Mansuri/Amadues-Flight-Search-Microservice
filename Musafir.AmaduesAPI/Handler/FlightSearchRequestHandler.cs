@@ -1,4 +1,5 @@
 ﻿using AmadeusWebService;
+using Musafir.AmaduesAPI.Header;
 using Musafir.AmaduesAPI.Request;
 using System.Xml;
 
@@ -6,16 +7,13 @@ namespace Musafir.AmaduesAPI.Handler
 {
     public class FlightSearchRequestHandler(AmadeusSecurityHeader amadeusSecurityHeader, IConfiguration configuration) : IFightSearchRequestHandler
     {
-        private readonly AmadeusSecurityHeader _amadeusSecurityHeader = amadeusSecurityHeader;
-        private readonly IConfiguration _configuration = configuration;
-
         public Fare_MasterPricerTravelBoardSearchRequest GetRequest(FlightSearchRequestModel request)
         {
-            Fare_MasterPricerTravelBoardSearch amadeusFlightSearchRequest = new();
+            Fare_MasterPricerTravelBoardSearch amadeusFlightSearchRequest = new()
+            {
+                paxReference = AddPassengerDetails(request.TotalPax),
 
-            amadeusFlightSearchRequest.paxReference = AddPassengerDetails(request.TotalPax);
-
-            amadeusFlightSearchRequest.numberOfUnit =
+                numberOfUnit =
             [
                 new()
                 {
@@ -27,23 +25,24 @@ namespace Musafir.AmaduesAPI.Handler
                     typeOfUnit = "PX",
                     numberOfUnits = request.TotalPax.PaxCount.ToString()
                 }
-            ];
+            ],
 
-            amadeusFlightSearchRequest.fareOptions = AddFareDetails();
+                fareOptions = AddFareDetails(),
 
-
-            amadeusFlightSearchRequest.itinerary = AddItineraires(request.Itineraries);
+                itinerary = AddItineraires(request.Itineraries)
+            };
 
             var fareMasterPriceTravlerboardRequest = new Fare_MasterPricerTravelBoardSearchRequest
             {
                 Fare_MasterPricerTravelBoardSearch = amadeusFlightSearchRequest,
                 AMA_SecurityHostedUser = GetAMA_SecurityHostedUser(),
                 TransactionFlowLink = GetTransactionFlowLinkType(),
-                Security = _amadeusSecurityHeader
+                Security = amadeusSecurityHeader
             };
 
             return fareMasterPriceTravlerboardRequest;
         }
+
 
         private TravellerReferenceInformationType[] AddPassengerDetails(PaxDetails paxDetails)
         {
@@ -112,7 +111,6 @@ namespace Musafir.AmaduesAPI.Handler
             return [.. paxRefernce];
         }
 
-
         private Fare_MasterPricerTravelBoardSearchFareOptions AddFareDetails()
         {
             return new Fare_MasterPricerTravelBoardSearchFareOptions
@@ -142,7 +140,6 @@ namespace Musafir.AmaduesAPI.Handler
             };
 
         }
-
 
         private Fare_MasterPricerTravelBoardSearchItinerary[] AddItineraires(Itinerary[] itineraries)
         {
@@ -196,7 +193,7 @@ namespace Musafir.AmaduesAPI.Handler
             UserID = new AMA_SecurityHostedUserUserID
             {
                 POS_Type = "1",
-                PseudoCityCode = _configuration["AmadeusConfiguration:OfficeId"],
+                PseudoCityCode = configuration["AmadeusConfiguration:OfficeId"],
                 AgentDutyCode = "SU",
                 RequestorType = "U"
             }

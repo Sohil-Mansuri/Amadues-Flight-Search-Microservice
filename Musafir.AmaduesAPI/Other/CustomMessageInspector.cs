@@ -7,8 +7,6 @@ namespace Musafir.AmaduesAPI.Other
 {
     public class CustomMessageInspector(IConfiguration configuration, ILogger<CustomMessageInspector> logger) : IClientMessageInspector
     {
-        private readonly IConfiguration _configuration = configuration;
-        private readonly ILogger<CustomMessageInspector> _logger = logger;
 
         public object? BeforeSendRequest(ref Message request, IClientChannel channel)
         {
@@ -17,7 +15,7 @@ namespace Musafir.AmaduesAPI.Other
             var actionHeader = MessageHeader.CreateHeader("Action", Constants.AddressingUrl, Constants.FlightSearchActionUrl);
             request.Headers.Add(actionHeader);
 
-            var toHeader = MessageHeader.CreateHeader("To", Constants.AddressingUrl, _configuration["AmadeusConfiguration:Url"]);
+            var toHeader = MessageHeader.CreateHeader("To", Constants.AddressingUrl, configuration["AmadeusConfiguration:Url"]);
             request.Headers.Add(toHeader);
 
 
@@ -34,7 +32,7 @@ namespace Musafir.AmaduesAPI.Other
                 copy.WriteMessage(writer);
                 writer.Flush();
                 var xml = sw.ToString();
-                _logger.LogInformation($"Amadeus Flight Request : {xml}");
+                logger.LogInformation($"Amadeus Flight Request : {xml}");
             }
 
             // Use the buffered copy to proceed
@@ -55,7 +53,7 @@ namespace Musafir.AmaduesAPI.Other
                     copy.WriteMessage(writer);
                     writer.Flush();
                     var xml = sw.ToString();
-                    _logger.LogInformation($"Amadeus Flight Response: {xml}");
+                    logger.LogInformation($"Amadeus Flight Response: {xml}");
                 }
             }
 
