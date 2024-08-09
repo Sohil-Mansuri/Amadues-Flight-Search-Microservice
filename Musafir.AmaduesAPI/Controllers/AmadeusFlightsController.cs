@@ -15,11 +15,11 @@ namespace Musafir.AmaduesAPI.Controllers
         }
 
         [HttpPost("getFlights")]
-        public IActionResult GetAmadeusFlight([FromBody] FlightSearchRequestModel requestModel)
+        public async Task<IActionResult> GetAmadeusFlight([FromBody] FlightSearchRequestModel requestModel)
         {
             try
             {
-                var response = _amadeusFlightService.GetAmaduesFlights(requestModel);
+                var response = await _amadeusFlightService.GetAmaduesFlights(requestModel);
                 return Ok(response);
             }
             catch (Exception ex)

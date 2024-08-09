@@ -48,10 +48,10 @@ namespace Musafir.AmaduesAPI.Service
             }
         }
 
-        public AirItineraryInfo[]? GetAmaduesFlights(FlightSearchRequestModel request)
+        public async Task<AirItineraryInfo[]?> GetAmaduesFlights(FlightSearchRequestModel request)
         {
             var providerRequest = _flightSearchRequestHandler.GetRequest(request);
-            var providerResponse = AmadeusClient.Fare_MasterPricerTravelBoardSearch(providerRequest);
+            var providerResponse = await AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync(providerRequest);
 
             var response = _flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
             return response;
