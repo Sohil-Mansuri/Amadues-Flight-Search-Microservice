@@ -48,13 +48,11 @@ namespace Musafir.AmaduesAPI.Other
 
             using (var sw = new StringWriter())
             {
-                using (var writer = new XmlTextWriter(sw))
-                {
-                    copy.WriteMessage(writer);
-                    writer.Flush();
-                    var xml = sw.ToString();
-                    logger.LogInformation($"Amadeus Flight Response: {xml}");
-                }
+                using var writer = new XmlTextWriter(sw);
+                copy.WriteMessage(writer);
+                writer.Flush();
+                var xml = sw.ToString();
+                logger.LogInformation($"Amadeus Flight Response: {xml}");
             }
 
             // Use the buffered copy to proceed

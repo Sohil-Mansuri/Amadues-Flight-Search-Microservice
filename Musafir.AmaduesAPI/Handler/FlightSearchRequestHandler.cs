@@ -43,7 +43,6 @@ namespace Musafir.AmaduesAPI.Handler
             return fareMasterPriceTravlerboardRequest;
         }
 
-
         private TravellerReferenceInformationType[] AddPassengerDetails(PaxDetails paxDetails)
         {
             var paxRefernce = new List<TravellerReferenceInformationType>();
