@@ -40,7 +40,7 @@ namespace Musafir.AmaduesAPI.Service
         {
             //get flights from cache
             var flightsFromCache = await flightCachingHandler.GetFlights(request);
-            if (flightsFromCache?.Any() ?? false) return flightsFromCache;
+            if (flightsFromCache?.Length > 0) return flightsFromCache;
 
             var providerRequest = fightSearchRequestHandler.GetRequest(request);
             var providerResponse = await AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync(providerRequest);

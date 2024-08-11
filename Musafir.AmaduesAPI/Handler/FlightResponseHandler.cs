@@ -85,7 +85,7 @@ namespace Musafir.AmaduesAPI.Handler
             //HandleError
             if (reply.errorMessage is not null)
             {
-                throw new Exception(string.Join(',', reply.errorMessage.errorMessageText.description));
+                throw new System.Exception(string.Join(',', reply.errorMessage.errorMessageText.description));
             }
 
             var allFlights = new List<List<AirOriginDestinationInfo>>();
@@ -93,7 +93,7 @@ namespace Musafir.AmaduesAPI.Handler
             {
                 if (Convert.ToInt32(reply.flightIndex[i].requestedSegmentRef.segRef) != i + 1)  //requestedSegment = original AirOriginDestination request
                 {
-                    throw new Exception("llogical flightIndex order");
+                    throw new System.Exception("llogical flightIndex order");
                 }
 
                 var airOriginDestinationList = new List<AirOriginDestinationInfo>();

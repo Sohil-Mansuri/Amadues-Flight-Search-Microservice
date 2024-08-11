@@ -1,6 +1,7 @@
 using Serilog;
-using Newtonsoft;
 using Musafir.AmaduesAPI.Extensions;
+using Musafir.AmaduesAPI.Exception;
+using Serilog.Formatting.Compact;
 
 namespace Musafir.AmaduesAPI
 {
@@ -16,13 +17,14 @@ namespace Musafir.AmaduesAPI
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
             builder.Services.AddProjectDependencies();
             builder.Services.AddThirdPartyDependnecies(builder);
 
             Log.Logger = new LoggerConfiguration()
                         .WriteTo.Console()
-                        .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+                        .WriteTo.File(new CompactJsonFormatter(), "Logs/log-.txt", rollingInterval: RollingInterval.Day)
                         .CreateLogger();
 
             builder.Host.UseSerilog();
@@ -35,6 +37,8 @@ namespace Musafir.AmaduesAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseExceptionHandler(_ => { });
 
             app.UseHttpsRedirection();
 
