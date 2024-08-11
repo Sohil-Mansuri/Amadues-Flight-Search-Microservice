@@ -8,10 +8,9 @@ namespace Musafir.AmaduesAPI.CustomValidation
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value is byte)
+            if (value is byte infantCount)
             {
                 var adultCount = Convert.ToByte(validationContext.ObjectType.GetProperty("Adult")?.GetValue(validationContext.ObjectInstance));
-                var infantCount = Convert.ToByte(value);
 
                 if (infantCount <= adultCount)
                 {
@@ -29,6 +28,8 @@ namespace Musafir.AmaduesAPI.CustomValidation
 
         private string? GetErrorMessage(ValidationContext validationContext)
         {
+            ArgumentNullException.ThrowIfNull(validationContext);
+
             if (ErrorMessageResourceType != null && !string.IsNullOrEmpty(ErrorMessageResourceName))
             {
                 var resourceManager = new ResourceManager(ErrorMessageResourceType);
