@@ -7,9 +7,9 @@ using System.ServiceModel;
 
 namespace Musafir.AmaduesAPI.Service
 {
-    public class AmadeusFlightService(IConfiguration configuration, 
-        CustomEndpointBehavior customEndpointBehavior, 
-        IFightSearchRequestHandler fightSearchRequestHandler, 
+    public class AmadeusFlightService(IConfiguration configuration,
+        CustomEndpointBehavior customEndpointBehavior,
+        IFightSearchRequestHandler fightSearchRequestHandler,
         IFlightResponseHandler flightResponseHandler,
         FlightCachingHandler flightCachingHandler)
     {
@@ -36,17 +36,19 @@ namespace Musafir.AmaduesAPI.Service
             }
         }
 
-        public async Task<AirItineraryInfo[]?> GetAmaduesFlights(FlightSearchRequestModel request)
+        public async Task<AirItineraryInfo[]?> GetAmaduesFlights(FlightSearchRequestModel request, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
             //get flights from cache
-            var flightsFromCache = await flightCachingHandler.GetFlights(request);
+            var flightsFromCache = await flightCachingHandler.GetFlights(request, cancellationToken);
             if (flightsFromCache?.Length > 0) return flightsFromCache;
 
             var providerRequest = fightSearchRequestHandler.GetRequest(request);
             var providerResponse = await AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync(providerRequest);
 
             var response = flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
-            await flightCachingHandler.StoreFlights(response, request);
+            await flightCachingHandler.StoreFlights(response, request, cancellationToken);
             return response;
         }
     }

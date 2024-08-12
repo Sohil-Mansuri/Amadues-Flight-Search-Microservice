@@ -1,6 +1,6 @@
 using Serilog;
 using Musafir.AmaduesAPI.Extensions;
-using Musafir.AmaduesAPI.Exception;
+using Musafir.AmaduesAPI.Exceptions;
 using Serilog.Formatting.Compact;
 
 namespace Musafir.AmaduesAPI

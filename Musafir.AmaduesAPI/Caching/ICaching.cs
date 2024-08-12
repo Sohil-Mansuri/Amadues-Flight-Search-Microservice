@@ -2,9 +2,9 @@
 {
     public interface ICaching
     {
-        Task Store(string key, object? data);
+        Task Store(string key, object? data, CancellationToken cancellationToken);
 
-        Task<T?> GetData<T>(string key);
+        Task<T?> GetData<T>(string key, CancellationToken cancellationToken);
 
     }
 }

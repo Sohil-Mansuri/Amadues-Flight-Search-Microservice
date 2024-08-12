@@ -7,17 +7,17 @@ namespace Musafir.AmaduesAPI.Handler
 {
     public class FlightCachingHandler(ICaching caching)
     {
-        public async Task StoreFlights(AirItineraryInfo[]? flights, FlightSearchRequestModel request)
+        public async Task StoreFlights(AirItineraryInfo[]? flights, FlightSearchRequestModel request, CancellationToken cancellationToken)
         {
             var key = GetFlightKey(request);
-            await caching.Store(key,flights);
+            await caching.Store(key, flights, cancellationToken);
         }
 
 
-        public async Task<AirItineraryInfo[]?> GetFlights(FlightSearchRequestModel request)
+        public async Task<AirItineraryInfo[]?> GetFlights(FlightSearchRequestModel request, CancellationToken cancellationToken)
         {
             var key = GetFlightKey(request);
-            var flights = await caching.GetData<AirItineraryInfo[]?>(key);
+            var flights = await caching.GetData<AirItineraryInfo[]?>(key, cancellationToken);
             return flights;
         }
 
@@ -26,7 +26,6 @@ namespace Musafir.AmaduesAPI.Handler
         private string GetFlightKey(FlightSearchRequestModel request)
         {
             StringBuilder key = new();
-
 
             foreach (var itinerary in request.Itineraries)
             {
@@ -41,7 +40,7 @@ namespace Musafir.AmaduesAPI.Handler
 
 
             return key.ToString();
-            
+
         }
     }
 }

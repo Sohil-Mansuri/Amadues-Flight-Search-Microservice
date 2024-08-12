@@ -9,9 +9,9 @@ namespace Musafir.AmaduesAPI.Caching
         private readonly byte _absoluteExpiration = Convert.ToByte(configuration["Redis:AbsoluteExpiration"]);
         private readonly byte _slidingExpiration = Convert.ToByte(configuration["Redis:SlidingExpiration"]);
 
-        public async Task<T?> GetData<T>(string key)
+        public async Task<T?> GetData<T>(string key, CancellationToken cancellationToken)
         {
-            var data = await cache.GetStringAsync(key);
+            var data = await cache.GetStringAsync(key, cancellationToken);
             if (data is not null)
             {
                 var result = JsonConvert.DeserializeObject<T>(data);
@@ -21,7 +21,7 @@ namespace Musafir.AmaduesAPI.Caching
             return default;
         }
 
-        public async Task Store(string key, object? data)
+        public async Task Store(string key, object? data, CancellationToken cancellationToken)
         {
             if (data is not null)
             {
@@ -31,7 +31,7 @@ namespace Musafir.AmaduesAPI.Caching
                     SlidingExpiration = TimeSpan.FromMinutes(_slidingExpiration) // Sliding expiration time
                 };
                 var serelizedData = JsonConvert.SerializeObject(data);
-                await cache.SetStringAsync(key, serelizedData, cacheOptions);
+                await cache.SetStringAsync(key, serelizedData, cacheOptions, cancellationToken);
             }
         }
     }
