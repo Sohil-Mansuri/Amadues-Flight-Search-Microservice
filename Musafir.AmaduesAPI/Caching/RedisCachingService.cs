@@ -6,8 +6,8 @@ namespace Musafir.AmaduesAPI.Caching
 {
     public class RedisCachingService(IDistributedCache cache, IConfiguration configuration) : ICaching
     {
-        private readonly byte _absoluteExpiration = Convert.ToByte(configuration["Redis:AbsoluteExpiration"]);
-        private readonly byte _slidingExpiration = Convert.ToByte(configuration["Redis:SlidingExpiration"]);
+        private readonly byte _absoluteExpiration = Convert.ToByte(configuration["RedisConfiguration:AbsoluteExpiration"]);
+        private readonly byte _slidingExpiration = Convert.ToByte(configuration["RedisConfiguration:SlidingExpiration"]);
 
         public async Task<T?> GetData<T>(string key, CancellationToken cancellationToken)
         {

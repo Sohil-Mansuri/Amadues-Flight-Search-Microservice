@@ -27,7 +27,7 @@ namespace Musafir.AmaduesAPI.Extensions
         {
             builder.Services.AddStackExchangeRedisCache(options =>
             {
-                options.Configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value;
+                options.Configuration = builder.Configuration.GetConnectionString("Redis");
             });
         }
 
