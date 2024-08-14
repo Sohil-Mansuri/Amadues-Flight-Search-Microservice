@@ -1,6 +1,7 @@
 ﻿using Musafir.AmaduesAPI.Caching;
 using Musafir.AmaduesAPI.Handler;
 using Musafir.AmaduesAPI.Header;
+using Musafir.AmaduesAPI.Middleware.IPValidation;
 using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Service;
 
@@ -28,6 +29,12 @@ namespace Musafir.AmaduesAPI.Extensions
             {
                 options.Configuration = builder.Configuration.GetSection("Redis:ConnectionString").Value;
             });
+        }
+
+
+        public static void AddCustomMiddlewares(this IServiceCollection services)
+        {
+            services.AddTransient<IPValidationMiddleware>();
         }
     }
 }
