@@ -5,9 +5,9 @@ using Musafir.AmaduesAPI.Middleware.IPValidation;
 using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Service;
 
-namespace Musafir.AmaduesAPI.Extensions
+namespace Musafir.AmaduesAPI
 {
-    public static class MusafirProjectDependnecies
+    public static class DependencyInjection
     {
         public static void AddProjectDependencies(this IServiceCollection services)
         {

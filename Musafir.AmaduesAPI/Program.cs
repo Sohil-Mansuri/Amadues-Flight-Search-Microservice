@@ -1,5 +1,4 @@
 using Serilog;
-using Musafir.AmaduesAPI.Extensions;
 using Musafir.AmaduesAPI.Exceptions;
 using Serilog.Formatting.Compact;
 using Musafir.AmaduesAPI.Middleware.IPValidation;
@@ -46,6 +45,8 @@ namespace Musafir.AmaduesAPI
             app.UseExceptionHandler(_ => { });
 
             app.UseHttpsRedirection();
+
+            app.UseSerilogRequestLogging();
 
             app.UseAuthorization();
 

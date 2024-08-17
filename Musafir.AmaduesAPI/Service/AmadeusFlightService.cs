@@ -3,6 +3,7 @@ using Musafir.AmaduesAPI.Handler;
 using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Response;
+using System.Diagnostics;
 using System.ServiceModel;
 
 namespace Musafir.AmaduesAPI.Service
@@ -11,7 +12,8 @@ namespace Musafir.AmaduesAPI.Service
         CustomEndpointBehavior customEndpointBehavior,
         IFightSearchRequestHandler fightSearchRequestHandler,
         IFlightResponseHandler flightResponseHandler,
-        FlightCachingHandler flightCachingHandler)
+        FlightCachingHandler flightCachingHandler,
+        ILogger<AmadeusFlightService> logger)
     {
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
 
@@ -45,10 +47,23 @@ namespace Musafir.AmaduesAPI.Service
             if (flightsFromCache?.Length > 0) return flightsFromCache;
 
             var providerRequest = fightSearchRequestHandler.GetRequest(request);
-            var providerResponse = await AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync(providerRequest);
+            var providerResponse = await WithPreAndPostProcessing(providerRequest, AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync, cancellationToken);
 
             var response = flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
             await flightCachingHandler.StoreFlights(response, request, cancellationToken);
+            return response;
+        }
+
+
+        private async Task<TResponse> WithPreAndPostProcessing<TRequest, TResponse>(TRequest request,Func<TRequest, Task<TResponse>> action, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var response = await action(request);
+            stopwatch.Stop();
+            var totalTime = stopwatch.Elapsed.TotalMilliseconds;
+            logger.LogInformation($"Amadues provider response time {totalTime} ms");
             return response;
         }
     }
