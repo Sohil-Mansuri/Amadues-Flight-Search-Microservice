@@ -17,7 +17,7 @@ namespace Musafir.AmaduesAPI.Exceptions
                 await httpContext.Response.WriteAsJsonAsync("Something went wrong, please contact Admin", cancellationToken);
             }
 
-            logger.LogError(exception, exception.Message);
+            logger.LogError(exception, "Exception has been happpend");
             httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             return true;
         }

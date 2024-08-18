@@ -2,6 +2,8 @@ using Serilog;
 using Musafir.AmaduesAPI.Exceptions;
 using Serilog.Formatting.Compact;
 using Musafir.AmaduesAPI.Middleware.IPValidation;
+using Serilog.Filters;
+using Serilog.Enrichers.HttpContextData;
 
 namespace Musafir.AmaduesAPI
 {
@@ -24,12 +26,7 @@ namespace Musafir.AmaduesAPI
             builder.Services.AddThirdPartyDependnecies(builder);
             builder.Services.AddCustomMiddlewares();
 
-            Log.Logger = new LoggerConfiguration()
-                        .WriteTo.Console()
-                        .WriteTo.File(new CompactJsonFormatter(), "Logs/log-.txt", rollingInterval: RollingInterval.Day)
-                        .CreateLogger();
-
-            builder.Host.UseSerilog();
+            builder.Services.AddSerilog(builder);
 
             var app = builder.Build();
 
@@ -40,7 +37,7 @@ namespace Musafir.AmaduesAPI
                 app.UseSwaggerUI();
             }
 
-            app.UseIpValidation();
+            app.UseIPValidation();
 
             app.UseExceptionHandler(_ => { });
 

@@ -4,6 +4,10 @@ using Musafir.AmaduesAPI.Header;
 using Musafir.AmaduesAPI.Middleware.IPValidation;
 using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Service;
+using Serilog.Filters;
+using Serilog;
+using Serilog.Enrichers.HttpContextData;
+using Serilog.Formatting.Compact;
 
 namespace Musafir.AmaduesAPI
 {
@@ -28,6 +32,7 @@ namespace Musafir.AmaduesAPI
             builder.Services.AddStackExchangeRedisCache(options =>
             {
                 options.Configuration = builder.Configuration.GetConnectionString("Redis");
+                options.InstanceName = "AmadeusDemo";
             });
         }
 
@@ -35,6 +40,39 @@ namespace Musafir.AmaduesAPI
         public static void AddCustomMiddlewares(this IServiceCollection services)
         {
             services.AddTransient<IPValidationMiddleware>();
+        }
+
+
+        public static void AddSerilog(this IServiceCollection services, WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+            .Enrich.FromLogContext()
+            .Enrich.WithClientIp()
+            .Enrich.WithHttpContextData()
+            .Enrich.WithEnvironmentUserName()
+            .Enrich.WithProcessId()
+            .WriteTo.Console()
+            .WriteTo.Logger(config =>
+            {
+                config
+                   .Filter.ByExcluding(evt => evt.Properties.ContainsKey("Logger") && evt.Properties["Logger"].ToString() == "\"Amadeus\"")
+                   .WriteTo.File(new CompactJsonFormatter(), "Logs/Application/log-.txt", rollingInterval: RollingInterval.Day);
+            })
+            .WriteTo.Logger(config =>
+            {
+                config
+                   .Filter.ByIncludingOnly(evt => evt.Properties.ContainsKey("Logger") && evt.Properties["Logger"].ToString() == "\"Amadeus\"")
+                   .WriteTo.File(new CompactJsonFormatter(), "Logs/Amadeus/log-.txt", rollingInterval: RollingInterval.Day);
+            })
+            .Filter.ByExcluding(Matching.FromSource("Microsoft"))
+            .Filter.ByExcluding(Matching.FromSource("System"))
+            .CreateLogger();
+
+            builder.Host.UseSerilog();
+
+            var subLogger = Log.Logger.ForContext("Logger", "Amadeus");
+
+            builder.Services.AddSingleton(subLogger);
         }
     }
 }

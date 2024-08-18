@@ -2,7 +2,7 @@
 {
     public static class IPVWhitelistExtensions
     {
-        public static IApplicationBuilder UseIpValidation(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseIPValidation(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<IPValidationMiddleware>();
         }

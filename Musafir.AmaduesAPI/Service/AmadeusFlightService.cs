@@ -63,7 +63,7 @@ namespace Musafir.AmaduesAPI.Service
             var response = await action(request);
             stopwatch.Stop();
             var totalTime = stopwatch.Elapsed.TotalMilliseconds;
-            logger.LogInformation($"Amadues provider response time {totalTime} ms");
+            logger.LogInformation("Amadues provider response time {totalTime} ms", totalTime);
             return response;
         }
     }
