@@ -1,9 +1,6 @@
 using Serilog;
 using Musafir.AmaduesAPI.Exceptions;
-using Serilog.Formatting.Compact;
 using Musafir.AmaduesAPI.Middleware.IPValidation;
-using Serilog.Filters;
-using Serilog.Enrichers.HttpContextData;
 
 namespace Musafir.AmaduesAPI
 {
