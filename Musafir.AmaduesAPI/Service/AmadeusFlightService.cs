@@ -5,6 +5,7 @@ using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Response;
 using System.Diagnostics;
 using System.ServiceModel;
+using System.Threading;
 
 namespace Musafir.AmaduesAPI.Service
 {
@@ -16,6 +17,7 @@ namespace Musafir.AmaduesAPI.Service
         ILogger<AmadeusFlightService> logger)
     {
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
+        private int _timeoutInSeconds = Convert.ToInt32(configuration["AmaduesTimeout"]);
 
 
         public Master_pricer__PDT_1_0_ServicesPTClient AmadeusClient
@@ -59,8 +61,18 @@ namespace Musafir.AmaduesAPI.Service
         {
             cancellationToken.ThrowIfCancellationRequested();
             var stopwatch = new Stopwatch();
+            var timeout = TimeSpan.FromSeconds(_timeoutInSeconds);
+            var timeoutTask = Task.Delay(timeout, cancellationToken);
+            
             stopwatch.Start();
-            var response = await action(request);
+            var actionTask = action(request);
+            var completedTask = await Task.WhenAny(actionTask, timeoutTask);
+            if (completedTask == timeoutTask)
+            {
+                throw new TimeoutException("The operation has timed out.");
+            }
+
+            var response = await actionTask;
             stopwatch.Stop();
             var totalTime = stopwatch.Elapsed.TotalMilliseconds;
             logger.LogInformation("Amadues provider response time {totalTime} ms", totalTime);

@@ -8,6 +8,15 @@ namespace Musafir.AmaduesAPI.Exceptions
 
         public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
         {
+            if (exception is TimeoutException)
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status504GatewayTimeout;
+            }
+            else
+            {
+                httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            }
+
             if (configuration["ASPNETCORE_ENVIRONMENT"] == Constants.Development)
             {
                 await httpContext.Response.WriteAsJsonAsync(exception, cancellationToken);
@@ -18,7 +27,6 @@ namespace Musafir.AmaduesAPI.Exceptions
             }
 
             logger.LogError(exception, "Exception has been happpend");
-            httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             return true;
         }
     }
