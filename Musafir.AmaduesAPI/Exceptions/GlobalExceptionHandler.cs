@@ -23,7 +23,7 @@ namespace Musafir.AmaduesAPI.Exceptions
             }
             else
             {
-                await httpContext.Response.WriteAsJsonAsync("Something went wrong, please contact Admin", cancellationToken);
+                await httpContext.Response.WriteAsJsonAsync("Something went wrong, please contact with Admin", cancellationToken);
             }
 
             logger.LogError(exception, "Exception has been happpend");
