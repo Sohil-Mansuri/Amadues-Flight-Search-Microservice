@@ -17,7 +17,7 @@ namespace Musafir.AmaduesAPI.Service
         ILogger<AmadeusFlightService> logger)
     {
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
-        private int _timeoutInSeconds = Convert.ToInt32(configuration["AmaduesTimeout"]);
+        private int _timeoutInSeconds = Convert.ToInt32(configuration["AmadeusTimeout"]);
 
 
         public Master_pricer__PDT_1_0_ServicesPTClient AmadeusClient
