@@ -64,6 +64,7 @@ namespace Musafir.AmaduesAPI
                    .Filter.ByIncludingOnly(evt => evt.Properties.ContainsKey("Logger") && evt.Properties["Logger"].ToString() == "\"Amadeus\"")
                    .WriteTo.File(new CompactJsonFormatter(), "Logs/Amadeus/log-.txt", rollingInterval: RollingInterval.Day);
             })
+            .WriteTo.Seq("http://localhost:8081")
             .Filter.ByExcluding(Matching.FromSource("Microsoft"))
             .Filter.ByExcluding(Matching.FromSource("System"))
             .CreateLogger();
