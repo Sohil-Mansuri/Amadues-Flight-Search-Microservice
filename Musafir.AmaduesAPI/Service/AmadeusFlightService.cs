@@ -17,7 +17,8 @@ namespace Musafir.AmaduesAPI.Service
         ILogger<AmadeusFlightService> logger)
     {
         private Master_pricer__PDT_1_0_ServicesPTClient? _amadeusClient;
-        private int _timeoutInSeconds = Convert.ToInt32(configuration["AmadeusTimeout"]);
+        private readonly int _timeoutInSeconds = Convert.ToInt32(configuration["AmadeusTimeout"]);
+        private readonly bool _isCachingEnabled = Convert.ToBoolean(configuration["IsCachingEnabled"]);
 
 
         public Master_pricer__PDT_1_0_ServicesPTClient AmadeusClient
@@ -45,25 +46,30 @@ namespace Musafir.AmaduesAPI.Service
             cancellationToken.ThrowIfCancellationRequested();
 
             //get flights from cache
-            var flightsFromCache = await flightCachingHandler.GetFlights(request, cancellationToken);
-            if (flightsFromCache?.Length > 0) return flightsFromCache;
+            if (_isCachingEnabled)
+            {
+                var flightsFromCache = await flightCachingHandler.GetFlights(request, cancellationToken);
+                if (flightsFromCache?.Length > 0) return flightsFromCache;
+            }
 
             var providerRequest = fightSearchRequestHandler.GetRequest(request);
             var providerResponse = await WithPreAndPostProcessing(providerRequest, AmadeusClient.Fare_MasterPricerTravelBoardSearchAsync, cancellationToken);
 
             var response = flightResponseHandler.GetFlightResponse(providerResponse.Fare_MasterPricerTravelBoardSearchReply);
-            await flightCachingHandler.StoreFlights(response, request, cancellationToken);
+            if (_isCachingEnabled)
+                await flightCachingHandler.StoreFlights(response, request, cancellationToken);
+
             return response;
         }
 
 
-        private async Task<TResponse> WithPreAndPostProcessing<TRequest, TResponse>(TRequest request,Func<TRequest, Task<TResponse>> action, CancellationToken cancellationToken)
+        private async Task<TResponse> WithPreAndPostProcessing<TRequest, TResponse>(TRequest request, Func<TRequest, Task<TResponse>> action, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var stopwatch = new Stopwatch();
             var timeout = TimeSpan.FromSeconds(_timeoutInSeconds);
             var timeoutTask = Task.Delay(timeout, cancellationToken);
-            
+
             stopwatch.Start();
             var actionTask = action(request);
             var completedTask = await Task.WhenAny(actionTask, timeoutTask);
