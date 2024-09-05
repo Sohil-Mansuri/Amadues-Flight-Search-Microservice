@@ -6,7 +6,6 @@ using Musafir.AmaduesAPI.Other;
 using Musafir.AmaduesAPI.Service;
 using Serilog.Filters;
 using Serilog;
-using Serilog.Enrichers.HttpContextData;
 using Serilog.Formatting.Compact;
 
 namespace Musafir.AmaduesAPI
@@ -48,7 +47,6 @@ namespace Musafir.AmaduesAPI
             Log.Logger = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .Enrich.WithClientIp()
-            .Enrich.WithHttpContextData()
             .Enrich.WithEnvironmentUserName()
             .Enrich.WithProcessId()
             .WriteTo.Console()

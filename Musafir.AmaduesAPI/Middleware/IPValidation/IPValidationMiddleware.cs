@@ -15,6 +15,7 @@ namespace Musafir.AmaduesAPI.Middleware.IPValidation
                 }
             }
         }
+
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
             var currestUserIP = context.Connection.RemoteIpAddress;
