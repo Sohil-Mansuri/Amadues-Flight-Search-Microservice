@@ -9,6 +9,9 @@ namespace Musafir.AmaduesAPI.FluentValidation
     {
         public FlightSearchRequestValidator()
         {
+            RuleFor(x => x.Itineraries)
+                 .NotEmpty().WithMessage(ErrorMessages.Required);
+
             RuleForEach(x => x.Itineraries)
                 .SetValidator(new ItineraryValidator());
 
