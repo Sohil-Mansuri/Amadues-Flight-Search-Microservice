@@ -1,6 +1,8 @@
 using Serilog;
 using Musafir.AmaduesAPI.Exceptions;
 using Musafir.AmaduesAPI.Middleware.IPValidation;
+using Musafir.AmaduesAPI.FluentValidation;
+using FluentValidation;
 
 namespace Musafir.AmaduesAPI
 {
@@ -13,6 +15,8 @@ namespace Musafir.AmaduesAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+            builder.Services.AddValidatorsFromAssemblyContaining<FlightSearchRequestValidator>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -22,7 +26,6 @@ namespace Musafir.AmaduesAPI
             builder.Services.AddProjectDependencies();
             builder.Services.AddThirdPartyDependnecies(builder);
             builder.Services.AddCustomMiddlewares();
-
             builder.Services.AddSerilog(builder);
 
             var app = builder.Build();
