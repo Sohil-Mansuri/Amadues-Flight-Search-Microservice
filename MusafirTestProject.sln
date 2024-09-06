@@ -5,7 +5,7 @@ VisualStudioVersion = 17.10.35122.118
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Musafir.AmaduesAPI", "Musafir.AmaduesAPI\Musafir.AmaduesAPI.csproj", "{C8DA5072-FBCC-4100-AA29-F4012EB06369}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musafir.Test.UnitTest", "Musafir.Test.UnitTest\Musafir.Test.UnitTest.csproj", "{0BAF7A08-31B0-4A1D-A27A-0FAA55018DB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Musafir.Test.UnitTest", "Musafir.Test.UnitTest\Musafir.Test.UnitTest.csproj", "{0BAF7A08-31B0-4A1D-A27A-0FAA55018DB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
