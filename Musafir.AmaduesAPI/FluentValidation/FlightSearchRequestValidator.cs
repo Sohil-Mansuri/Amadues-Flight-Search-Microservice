@@ -2,10 +2,13 @@
 using FluentValidation;
 using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Resources;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Musafir.Test.UnitTest")]
 
 namespace Musafir.AmaduesAPI.FluentValidation
 {
-    public class FlightSearchRequestValidator : AbstractValidator<FlightSearchRequestModel>
+    internal class FlightSearchRequestValidator : AbstractValidator<FlightSearchRequestModel>
     {
         public FlightSearchRequestValidator()
         {
@@ -21,7 +24,7 @@ namespace Musafir.AmaduesAPI.FluentValidation
     }
 
 
-    public class ItineraryValidator : AbstractValidator<Itinerary>
+    internal class ItineraryValidator : AbstractValidator<Itinerary>
     {
         public ItineraryValidator()
         {
@@ -41,7 +44,7 @@ namespace Musafir.AmaduesAPI.FluentValidation
     }
 
 
-    public class PaxValidator : AbstractValidator<PaxDetails>
+    internal class PaxValidator : AbstractValidator<PaxDetails>
     {
         public PaxValidator()
         {
