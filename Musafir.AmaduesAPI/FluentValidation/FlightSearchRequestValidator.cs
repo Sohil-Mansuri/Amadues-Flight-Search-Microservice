@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Musafir.AmaduesAPI.FluentValidation
 {
-    internal class FlightSearchRequestValidator : AbstractValidator<FlightSearchRequestModel>
+    public class FlightSearchRequestValidator : AbstractValidator<FlightSearchRequestModel>
     {
         public FlightSearchRequestValidator()
         {
