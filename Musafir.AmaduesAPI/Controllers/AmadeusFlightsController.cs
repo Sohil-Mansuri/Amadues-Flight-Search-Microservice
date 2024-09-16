@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Musafir.AmaduesAPI.FluentValidation;
+﻿using Microsoft.AspNetCore.Mvc;
 using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Service;
 

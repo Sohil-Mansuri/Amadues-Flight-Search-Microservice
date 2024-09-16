@@ -5,7 +5,6 @@ using Musafir.AmaduesAPI.Request;
 using Musafir.AmaduesAPI.Response;
 using System.Diagnostics;
 using System.ServiceModel;
-using System.Threading;
 
 namespace Musafir.AmaduesAPI.Service
 {

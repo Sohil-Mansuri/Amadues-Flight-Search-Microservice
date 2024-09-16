@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  musafir-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" 
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - redis
+
+  redis:
+    image: "redis:alpine"  # Use the lightweight Redis image
+    container_name: redis
+    ports:
+      - "6379:6379"  # Redis default port
+    volumes:
+      - redis_data:/data
+
+volumes:
+  redis_data:

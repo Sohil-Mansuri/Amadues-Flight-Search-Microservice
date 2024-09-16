@@ -5,6 +5,8 @@ using Musafir.AmaduesAPI.FluentValidation;
 using FluentValidation;
 using ProtoBuf.Meta;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Options;
 
 namespace Musafir.AmaduesAPI
 {
@@ -32,6 +34,24 @@ namespace Musafir.AmaduesAPI
             builder.Services.AddCustomMiddlewares();
             builder.Services.AddSerilog(builder);
 
+            builder.Services.AddRateLimiter(options =>
+            {
+                options.AddFixedWindowLimiter("FixedWindowPolicy", config =>
+                {
+                    config.PermitLimit = 10;
+                    config.Window = TimeSpan.FromMinutes(1);
+                    config.QueueLimit = 1;
+                    config.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+                });
+
+                options.OnRejected =  (context, CancellationToken) =>
+                {
+                    context.HttpContext.Response.StatusCode = 429; // Too Many Requests
+                    context.HttpContext.Response.WriteAsync("Rate limit exceeded. Please try again later.");
+                    return ValueTask.CompletedTask;
+                };
+            });
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -51,6 +71,7 @@ namespace Musafir.AmaduesAPI
 
             app.UseAuthorization();
 
+            app.UseRateLimiter();
 
             app.MapControllers();
 
