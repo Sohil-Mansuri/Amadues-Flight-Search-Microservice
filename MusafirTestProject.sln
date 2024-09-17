@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Musafir.AmaduesAPI", "Musaf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Musafir.Test.UnitTest", "Musafir.Test.UnitTest\Musafir.Test.UnitTest.csproj", "{0BAF7A08-31B0-4A1D-A27A-0FAA55018DB4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Musafir.Test.IntegrationTest", "Musafir.Test.IntegrationTest\Musafir.Test.IntegrationTest.csproj", "{CE6EB439-77B9-4376-BEAE-0739AFA7B4BA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0BAF7A08-31B0-4A1D-A27A-0FAA55018DB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BAF7A08-31B0-4A1D-A27A-0FAA55018DB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BAF7A08-31B0-4A1D-A27A-0FAA55018DB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE6EB439-77B9-4376-BEAE-0739AFA7B4BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE6EB439-77B9-4376-BEAE-0739AFA7B4BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE6EB439-77B9-4376-BEAE-0739AFA7B4BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE6EB439-77B9-4376-BEAE-0739AFA7B4BA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
